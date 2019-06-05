@@ -26,19 +26,19 @@
                 <ul class="list">
                     <li class="header">Menu</li>
                     <li class="@if($active == 'home') active @endif">
-                        <a href="{{ url('/home') }}">
+                        <a href="{{ url('#') }}">
                             <i class="material-icons">dashboard</i>
                             <span>Inicio</span>
                         </a>
                     </li> 
                      <li class="@if($active == 'departamentos') active @endif">
-                        <a href="{{ url('/teams') }}">
+                        <a href="{{ url('/departamentos') }}">
                             <i class="material-icons">view_list</i>
                             <span>Departamentos</span>
                         </a>
                     </li>
                     <li class="@if($active == 'empleados') active @endif">
-                        <a href="{{ url('/players') }}">
+                        <a href="{{ url('/empleados') }}">
                             <i class="material-icons">people</i>
                             <span>Empledos</span>
                         </a>

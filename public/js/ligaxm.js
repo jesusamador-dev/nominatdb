@@ -1,45 +1,13 @@
-var row;
-$("#deleteTeam").on('click', function(ev) {
-    ev.preventDefault();
-    row = $("#deleteTeam").parents("tr");
-});
-$("#deleteFormTeam").on('click', function(ev) {
-    ev.preventDefault();
-    var form = $("#formDeleteTeam");
-    var id = row.data("id");
-    var url = form.attr('action').replace(':USER_ID', id);
-    $.ajax({
-        url: url,
-        method: form.attr("method"),
-        data: form.serialize(),
-        dataType: "JSON",
-        beforeSend: function() {
-            $("#deleteFormTeam").val("Eliminando...");
-        },
-        success: function(result) {
-            console.log(result);
-            $("#deleteModal").modal("toggle");
-            row.css({
-                "background-color": "maroon",
-                color: "white"
-            }).fadeOut(3000);
-        },
-        error: function(e) {
-            console.log(e);
-        }
-    });
-    return false;
-});
-
 var rowP;
-$("#deletePlayer").on("click", function(ev) {
+$("#deleteEmpleado").on("click", function(ev) {
     ev.preventDefault();
-    rowP = $("#deletePlayer").parents("tr");
+    rowP = $("#deleteEmpleado").parents("tr");
     console.log(rowP.data("id"));
 });
-$("#deleteFormPlayer").on("click", function(ev) {
+
+$("#deleteFormEmpleado").on("click", function(ev) {
     ev.preventDefault();
-    var form = $("#formDeletePlayer");
+    var form = $("#formDeleteEmpleado");
     console.log(rowP.data("id"));
     var id = rowP.data("id");
     var url = form.attr("action").replace(":USER_ID", id);
@@ -49,15 +17,11 @@ $("#deleteFormPlayer").on("click", function(ev) {
         data: form.serialize(),
         dataType: "JSON",
         beforeSend: function() {
-            $("#deleteFormPlayer").val("Eliminando...");
+            $("#deleteFormEmpleado").val("Eliminando...");
         },
         success: function(result) {
-            console.log(result);
-            $("#deleteModal").modal("toggle");
-            rowP.css({
-                "background-color": "maroon",
-                color: "white"
-            }).fadeOut(3000);
+            alert(result[0]['msg']);
+            location.reload();
         },
         error: function() {
             console.log("Error");

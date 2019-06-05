@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::resource('/departamentos', 'DepartamentosController');
+Route::resource('/empleados', 'EmpleadosController');
