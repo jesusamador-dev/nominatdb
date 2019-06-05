@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use TheSeer\Tokenizer\Exception;
+use Illuminate\Support\Collection as Collection;
 
 class EmpleadosController extends Controller
 {
@@ -84,7 +85,7 @@ class EmpleadosController extends Controller
                     $msg = $data->msg;
                 }
                 if (isset($data->nombre)) {
-                    $empleado['nombre'] = $data->nombre;
+                    $empleado['nombre'] = $data->empleado_nombre;
                 }
                 if (isset($data->rfc)) {
                     $empleado['rfc'] = $data->rfc;
@@ -98,14 +99,19 @@ class EmpleadosController extends Controller
                 if (isset($data->id_depto)) {
                     $empleado['nombre_depto'] = $data->nombre_depto;
                 }
+                if (isset($data->id_depto)) {
+                    $empleado['id_depto'] = $data->id_depto;
+                }
             }
 
-            //dd($departamento);
             if ($msg != "") {
                 return redirect("empleados")->with('status', $msg);
             } else {
                 //dd($depa);
-                return View('empleados.edit', ["empleado" => $empleado, "active" => "empleados"]);
+                $empleado = Collection::make($empleado);
+                $departamentos = DB::select('CALL getDepartamentos()');
+                //dd($empleado);
+                return View('empleados.edit', ["empleado" => $empleado, "active" => "empleados", 'departamentos' => $departamentos]);
             }
         }catch(Exception $e)
         {
@@ -123,7 +129,18 @@ class EmpleadosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $salario = $request->salario;
+        $id_depto = $request->depto;
+        //dd($request);
+
+        $res = DB::select('CALL updateEmpleado(?, ?, ?, @msg)', [$id, $salario, $id_depto]);
+        $msg = "";
+        foreach ($res as $data) {
+            if (isset($data->msg)) {
+                $msg = $data->msg;
+            }
+        }
+        return redirect("empleados")->with('status', $msg); 
     }
 
     /**
